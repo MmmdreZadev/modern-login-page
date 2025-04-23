@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(120deg, #0f172a, #1f2937, #0f766e);
+        background-size: 400% 400%;
+        animation: gradientMove 15s ease infinite;
+        font-family: "Vazir", sans-serif;
+        position: relative;
+
+        /* اضافه کن: */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .login-box {
+        background-color: #1e293b;
+        padding: 30px 24px; /* کاهش پدینگ */
+        border-radius: 16px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        width: 260px; /* عرض کمتر */
+        text-align: center;
+        color: white;
+        animation-delay: 0.3s;
+      }
+      .login-box input {
+        display: block;
+        width: 100%;
+        margin: 15px 0;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        background-color: #334155;
+        color: white;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      .login-box input::placeholder {
+        color: #94a3b8;
+      }
+      .login-box button {
+        position: relative;
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        background: linear-gradient(to right, #0f766e, #14b8a6);
+        border: none;
+        border-radius: 999px;
+        color: white;
+        font-weight: bold;
+        font-size: 14px; /* قبلاً 16px بود */
+        cursor: pointer;
+        overflow: hidden;
+        z-index: 1;
+        transition: 0.3s ease;
+      }
+      .login-box button:hover {
+        /* background: linear-gradient(to right, #0d9488, #2dd4bf);  */
+        box-shadow: 0 0 20px #14b8a6;
+      }
+      .icon,
+      .toggle-password {
+        font-size: 16px; /* قبلاً 18px بود */
+      }
+
+      .bottom-row {
+        margin-top: 25px;
+        display: flex;
+        flex-direction: row; /* به وضوح افقی بچینه */
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+      }
+      .bottom-row select {
+        background-color: #334155;
+        color: white;
+        border: 1px solid #475569;
+        padding: 10px 16px;
+        border-radius: 999px;
+        font-size: 14px;
+        font-weight: 500;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 16px 16px;
+        padding-right: 40px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .bottom-row select:hover {
+        background-color: #3b475a;
+        box-shadow: 0 0 5px #14b8a6;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #64748b;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .label-text {
+        margin-left: 8px;
+        color: white;
+        font-size: 14px;
+      }
+      .password-wrapper {
+        position: relative;
+        width: 100%;
+      }
+
+      .password-wrapper input {
+        width: 100%;
+        padding-right: 40px; /* جا برای آیکون چشم */
+      }
+      .login-box * {
+        user-select: none;
+      }
+
+      .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 14px;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #cbd5e1;
+        cursor: pointer;
+      }
+      .login-box button:hover::before {
+        left: 125%;
+      }
+      .login-box button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -75%;
+        width: 50%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: skewX(-30deg);
+        transition: left 0.5s ease;
+        z-index: 2;
+      }
+      .input-group {
+        position: relative;
+        margin: 15px 0;
+      }
+
+      .input-group input {
+        width: 100%;
+        padding: 10px 14px 10px 38px;
+        border-radius: 999px;
+        background: #1e3a4a;
+        border: 1px solid transparent;
+        color: white;
+        outline: none;
+        transition: 0.3s ease;
+        font-size: 13px; /* قبلاً 16px بود */
+      }
+
+      .input-group input:focus {
+        border: 1px solid #14b8a6;
+        background: #0f766e;
+        box-shadow: 0 0 8px #14b8a6;
+      }
+
+      .icon {
+        position: absolute;
+        top: 50%;
+        left: 14px;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #94a3b8;
+        pointer-events: none;
+      }
+      body[dir="rtl"] .input-group input {
+        text-align: left; /* متن فیلد فارسی سمت چپ */
+        direction: rtl; /* ولی نوشتار راست‌به‌چپه */
+      }
+
+      body[dir="rtl"] .icon {
+        left: unset;
+        right: 14px;
+      }
+
+      body[dir="rtl"] .toggle-password {
+        right: unset;
+        left: 14px;
+      }
+      .lang-transition {
+        transition: all 0.4s ease;
+        opacity: 0;
+      }
+
+      .lang-active {
+        opacity: 1;
+      }
+      .language-dropdown {
+        position: relative;
+        width: fit-content;
+        margin: 20px auto 0;
+        z-index: 10;
+      }
+
+      .language-dropdown {
+        position: relative;
+        width: 160px;
+        margin: 20px auto 0;
+        z-index: 10;
+        text-align: center;
+      }
+
+      .dropdown-toggle {
+        background-color: #334155;
+        color: white;
+        padding: 6px 12px; /* قبلاً 10px 16px بود */
+        border-radius: 16px; /* کوچیک‌تر از 999px */
+        font-size: 13px; /* کمی کوچیک‌تر */
+        font-weight: 500;
+        cursor: pointer;
+        user-select: none;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+      .dropdown-menu.show {
+        display: block; /* این خط مهمه و نبود */
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .dropdown-menu {
+        position: absolute;
+        top: 105%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #1e293b;
+        border-radius: 10px;
+        padding: 6px 0;
+        list-style: none;
+        margin: 6px 0 0;
+        display: none;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+        width: 140px; /* قبلاً 160px بود */
+        text-align: center;
+        z-index: 999;
+      }
+
+      .dropdown-menu.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .dropdown-menu li {
+        padding: 8px 12px; /* قبلاً 10px 16px بود */
+        font-size: 13px; /* کوچک‌تر برای فضای کمتر */
+        color: white;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      .dropdown-menu li:hover {
+        background-color: #334155;
+      }
+
+      @keyframes fadeSlideUp {
+        0% {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes gradientMove {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      #particles-js {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+
+      .login-box {
+        position: relative;
+        z-index: 1;
+      }
+      @media (max-width: 480px) {
+        .login-box {
+          width: 90%;
+          padding: 24px;
+          border-radius: 16px;
+        }
+
+        .input-group input {
+          font-size: 13px;
+          padding: 10px 12px 10px 36px;
+        }
+
+        .login-box button {
+          font-size: 14px;
+          padding: 10px;
+        }
+
+        .dropdown-toggle {
+          font-size: 12px;
+          padding: 6px 10px;
+        }
+
+        .dropdown-menu {
+          width: 120px;
+        }
+
+        .dropdown-menu li {
+          font-size: 12px;
+          padding: 6px 10px;
+        }
+
+        .icon,
+        .toggle-password {
+          font-size: 16px;
+        }
+
+        h2#title {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="particles-js"></div>
+    <!-- start:Login-box -->
+    <div class="login-box">
+      <h2 id="title">Hello</h2>
+
+      <div class="input-group">
+        <i class="ri-user-line icon"></i>
+        <input type="text" placeholder="Username" id="username" />
+      </div>
+
+      <div class="input-group">
+        <i class="ri-lock-line icon"></i>
+        <input type="password" placeholder="Password" id="password" />
+        <i
+          class="ri-eye-off-line toggle-password"
+          id="togglePasswordIcon"
+          onclick="togglePassword()"
+        ></i>
+      </div>
+
+      <button id="loginBtn">Login</button>
+
+      <div class="bottom-row">
+        <div class="language-dropdown">
+          <div class="dropdown-toggle" onclick="toggleDropdown()">
+            🌐 <span id="current-lang">English</span> ▼
+          </div>
+          <ul class="dropdown-menu" id="lang-menu">
+            <li onclick="setLang('en', 'English')">🇺🇸 English</li>
+            <li onclick="setLang('fa', 'فارسی')">🇮🇷 فارسی</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- end:Login-box -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+      // باز و بسته کردن منوی زبان
+      function toggleDropdown() {
+        const menu = document.getElementById("lang-menu");
+        menu.classList.toggle("show");
+      }
+
+      // تنظیم زبان و تغییر متن‌ها
+      function setLang(code, label) {
+        document.getElementById("current-lang").innerText = label;
+        document.getElementById("lang-menu").classList.remove("show");
+
+        const title = document.getElementById("title");
+        const username = document.getElementById("username");
+        const password = document.getElementById("password");
+        const loginBtn = document.getElementById("loginBtn");
+        const body = document.body;
+
+        // افکت تغییر زبان
+        [title, username, password, loginBtn].forEach((el) => {
+          el.classList.remove("lang-active");
+          el.classList.add("lang-transition");
+        });
+
+        setTimeout(() => {
+          if (code === "fa") {
+            title.innerText = "خوش آمدید";
+            username.placeholder = "نام کاربری";
+            password.placeholder = "رمز عبور";
+            loginBtn.innerText = "ورود";
+            body.setAttribute("dir", "rtl");
+          } else {
+            title.innerText = "Welcome";
+            username.placeholder = "Username";
+            password.placeholder = "Password";
+            loginBtn.innerText = "Login";
+            body.setAttribute("dir", "ltr");
+          }
+
+          [title, username, password, loginBtn].forEach((el) => {
+            el.classList.remove("lang-transition");
+            el.classList.add("lang-active");
+          });
+        }, 150);
+      }
+
+      // بستن منوی زبان با کلیک بیرون
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".language-dropdown")) {
+          document.getElementById("lang-menu").classList.remove("show");
+        }
+      });
+
+      // نمایش یا مخفی‌سازی رمز عبور
+      function togglePassword() {
+        const passwordInput = document.getElementById("password");
+        const toggleIcon = document.getElementById("togglePasswordIcon");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleIcon.classList.remove("ri-eye-off-line");
+          toggleIcon.classList.add("ri-eye-line");
+        } else {
+          passwordInput.type = "password";
+          toggleIcon.classList.remove("ri-eye-line");
+          toggleIcon.classList.add("ri-eye-off-line");
+        }
+      }
+
+      // افکت پارتیکل زمینه
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 60 },
+          color: { value: "#ffffff" },
+          shape: { type: "circle" },
+          opacity: { value: 0.3 },
+          size: { value: 2 },
+          line_linked: {
+            enable: true,
+            distance: 120,
+            color: "#ffffff",
+            opacity: 0.2,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 1,
+            direction: "none",
+            straight: false,
+            bounce: false,
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: { enable: true, mode: "repulse" },
+          },
+          modes: {
+            repulse: { distance: 100, duration: 0.4 },
+          },
+        },
+        retina_detect: true,
+      });
+    </script>
+  </body>
+</html>
